@@ -10,14 +10,12 @@ if(TEST)
     )
     FetchContent_MakeAvailable(googletest)
 
-    add_executable(GraphTutorTest
-        
+    include_directories(${PROJECT_SOURCE_DIR}/src)
+
+    add_executable(
+        GraphTutorTest
+        ${PROJECT_SOURCE_DIR}/test/Model/NodeTest.cpp 
     )
-
-    include_directories("${PROJECT_SOURCE_DIR}/src/Model")
-
-    target_include_directories(GraphViz PUBLIC "${PROJECT_SOURCE_DIR}/src/Model/")
-    target_link_directories(GraphViz PUBLIC "${PROJECT_SOURCE_DIR}/src/Model/")
     
     target_link_libraries(
         GraphTutorTest
