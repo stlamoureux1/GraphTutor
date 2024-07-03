@@ -18,10 +18,14 @@ template <class T>
 Node<T>::Node(NodeId id, T data) : m_id(id), m_data(data) {}
 
 template <class T>
-NodeId Node<T>::GetId() { return m_id; }
+NodeId Node<T>::GetId() { 
+    return m_id; 
+}
 
 template <class T>
-T Node<T>::GetData() { return m_data; }
+T Node<T>::GetData() { 
+    return m_data; 
+}
 
 template <class T>
 void Node<T>::SetData(T data) {
