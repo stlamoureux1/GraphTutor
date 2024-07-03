@@ -15,6 +15,7 @@ if(TEST)
     add_executable(
         GraphTutorTest
         ${PROJECT_SOURCE_DIR}/test/Model/NodeTest.cpp 
+        ${PROJECT_SOURCE_DIR}/test/Model/EdgeTest.cpp
     )
     
     target_link_libraries(
