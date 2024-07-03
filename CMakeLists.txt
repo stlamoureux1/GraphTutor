@@ -11,8 +11,14 @@ project(GraphTutor)
 find_package(wxWidgets COMPONENTS core base REQUIRED)
 include(${wxWidgets_USE_FILE})
 
-add_executable(GraphTutor src/GUI/Main.cpp)
 
+add_executable(
+    GraphTutor 
+    src/GUI/Main.cpp
+    src/GUI/NodeView.cpp
+    )
+
+target_include_directories(${PROJECT_NAME} PUBLIC $(PROJECT_SOURCE_DIR)/src)
 target_link_libraries(${PROJECT_NAME} ${wxWidgets_LIBRARIES})
 
 add_subdirectory(src)
