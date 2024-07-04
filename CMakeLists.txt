@@ -16,6 +16,7 @@ add_executable(
     GraphTutor 
     src/GUI/Main.cpp
     src/GUI/NodeView.cpp
+    src/GUI/EdgeView.cpp
     )
 
 target_include_directories(${PROJECT_NAME} PUBLIC $(PROJECT_SOURCE_DIR)/src)
