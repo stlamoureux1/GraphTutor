@@ -16,6 +16,7 @@ if(TEST)
         GraphTutorTest
         ${PROJECT_SOURCE_DIR}/test/Model/NodeTest.cpp 
         ${PROJECT_SOURCE_DIR}/test/Model/EdgeTest.cpp
+        ${PROJECT_SOURCE_DIR}/test/Model/SimpleGraphTest.cpp
     )
     
     target_link_libraries(
