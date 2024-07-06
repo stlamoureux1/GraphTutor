@@ -30,9 +30,28 @@ TEST(SimpleGraphTest, test2) {
     graph.AddEdge(edge3);
     graph.AddEdge(edge4);
     graph.RemoveNode(node1);
-    auto it = std::find_if(graph.edgeList.begin(), graph.edgeList.end(), 
-                [&](auto& edge){
-                    return edge.GetNodeIds().first == node1.GetId() || edge.GetNodeIds().second == node1.GetId();
-                });
-    ASSERT_EQ(it, graph.edgeList.end());
+    // Check that edges incident to node1 have been removed
+    auto edgeIter = std::find_if(graph.edgeList.begin(), graph.edgeList.end(), 
+                                [&](auto& edge){
+                                return edge.GetNodeIds().first == node1.GetId() 
+                                || edge.GetNodeIds().second == node1.GetId();
+                                }
+                            );
+    ASSERT_EQ(edgeIter, graph.edgeList.end());
+    // Check that adjacency list entry for node1 has been removed
+    auto mapEntryIter = std::find_if(graph.adjacencyList.begin(), graph.adjacencyList.end(), 
+                                    [&](auto mapEntry) {
+                                        return mapEntry.first == node1.GetId();
+                                    }
+                                );
+    ASSERT_EQ(mapEntryIter, graph.adjacencyList.end());
+    // Check that every adjacency list entry that contains node1 has been removed   
+    for (auto it = graph.adjacencyList.begin(); it != graph.adjacencyList.end(); it++) {
+        auto entryIter = std::find_if(it->second.begin(), it->second.end(), 
+                                        [&](auto entry) {
+                                            return entry.first == node1.GetId();
+                                        }
+                                    );
+        ASSERT_EQ(entryIter, it->second.end());
+    }
 }
