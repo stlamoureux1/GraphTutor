@@ -1,7 +1,7 @@
 #include "NodeView.h"
 
 NodeView::NodeView(wxPoint center, wxDouble radius) 
-    : m_center(center), m_radius(radius) {}
+    : m_center(center), m_radius(radius), isSelected(false) {}
 
 void NodeView::Draw(wxGraphicsContext* gc) {
     wxPen pen = wxPen(*wxWHITE_PEN);
@@ -24,6 +24,10 @@ bool NodeView::Contains(wxPoint point) {
 
 wxPoint NodeView::GetCenter() {
     return m_center;
+}
+
+void NodeView::SetCenter(wxPoint point) {
+    m_center = point;
 }
 
 wxDouble NodeView::GetRadius() {
