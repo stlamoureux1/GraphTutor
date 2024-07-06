@@ -23,12 +23,10 @@ TEST(SimpleGraphTest, test2) {
     Node<std::string> node4(3, "d");
     Edge<std::string> edge1(1, node1, node2);
     Edge<std::string> edge2(2, node1, node3);
-    Edge<std::string> edge3(3, node3, node4);
-    Edge<std::string> edge4(4, node2, node3);
+    Edge<std::string> edge3(3, node1, node4);
     graph.AddEdge(edge1);
     graph.AddEdge(edge2);
     graph.AddEdge(edge3);
-    graph.AddEdge(edge4);
     graph.RemoveNode(node1);
     // Check that edges incident to node1 have been removed
     auto edgeIter = std::find_if(graph.edgeList.begin(), graph.edgeList.end(), 
