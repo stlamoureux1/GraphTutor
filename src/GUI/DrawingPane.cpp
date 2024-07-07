@@ -4,7 +4,7 @@ DrawingPane::DrawingPane(wxFrame* parent, wxWindowID id)
     : wxWindow(parent, id) {
         SetBackgroundStyle(wxBG_STYLE_PAINT);
         Bind(wxEVT_LEFT_DOWN, &DrawingPane::OnMouseLeftDown, this);
-        // Bind(wxEVT_LEFT_UP, &DrawingPane::OnMouseLeftUp, this);
+        Bind(wxEVT_LEFT_UP, &DrawingPane::OnMouseLeftUp, this);
         Bind(wxEVT_LEFT_DCLICK, &DrawingPane::OnDoubleClick, this);
         // Bind(wxEVT_MOTION, &DrawingPane::OnMouseLeftDrag, this);
         Bind(wxEVT_PAINT, &DrawingPane::OnPaint, this);
@@ -18,9 +18,30 @@ void DrawingPane::OnMouseLeftDown(wxMouseEvent& event) {
     }
     for (auto node : graphView.graph.nodeList) {
         if (abs(event.GetPosition().x - graphView.nodePositions[node.GetId()].x) < 20
-            && abs(event.GetPosition().y - graphView.nodePositions[node.GetId()].y) < 20) {
+            && abs(event.GetPosition().y - graphView.nodePositions[node.GetId()].y) < 20) 
+        {
                 graphView.selectedNodes[node.GetId()] = true;
+            if (event.ControlDown()) {
+                graphView.newEdgeNode1Id = node.GetId();
+                std::cout << graphView.newEdgeNode1Id.value() << "\n";
             }
+        }
+    }
+    Refresh();
+}
+
+void DrawingPane::OnMouseLeftUp(wxMouseEvent& event) {
+    for (auto node : graphView.graph.nodeList) {
+        if (abs(event.GetPosition().x - graphView.nodePositions[node.GetId()].x) < 20
+            && abs(event.GetPosition().y - graphView.nodePositions[node.GetId()].y) < 20
+            && event.ControlDown())
+        {
+            graphView.newEdgeNode2Id = node.GetId();
+            std::cout << graphView.newEdgeNode2Id.value() << "\n";
+        }
+    }
+    if (graphView.newEdgeNode1Id.has_value() && graphView.newEdgeNode2Id.has_value()) {
+        graphView.AddEdge(graphView.newEdgeNode1Id.value(), graphView.newEdgeNode2Id.value());
     }
     Refresh();
 }

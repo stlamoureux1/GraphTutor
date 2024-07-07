@@ -1,7 +1,7 @@
 #include "EdgeView.h"
 
 EdgeView::EdgeView(wxPoint endpoint1, wxPoint endpoint2)
-    : m_endpoint1(endpoint1), m_endpoint2(endpoint2) {}
+    : m_endpoint1(endpoint1), m_endpoint2(endpoint2), isSelected(false) {}
 
 void EdgeView::Draw(wxGraphicsContext* gc) {
     wxPen pen = wxPen(*wxWHITE_PEN);
@@ -11,7 +11,7 @@ void EdgeView::Draw(wxGraphicsContext* gc) {
     gc->SetPen(pen);
     wxGraphicsPath path = gc->CreatePath();
     path.MoveToPoint(m_endpoint1);
-    path.AddLineToPoint(m_endpoint1);
+    path.AddLineToPoint(m_endpoint2);
     gc->StrokePath(path);
 }
 
