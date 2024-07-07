@@ -24,7 +24,6 @@ void DrawingPane::OnMouseLeftDown(wxMouseEvent& event) {
                 graphView.selectedNodes[node.GetId()] = true;
             if (event.ControlDown()) {
                 graphView.newEdgeNode1Id = node.GetId();
-                std::cout << graphView.newEdgeNode1Id.value() << "\n";
             }
         }
     }
@@ -38,7 +37,6 @@ void DrawingPane::OnMouseLeftUp(wxMouseEvent& event) {
             && event.ControlDown())
         {
             graphView.newEdgeNode2Id = node.GetId();
-            std::cout << graphView.newEdgeNode2Id.value() << "\n";
         }
     }
     if (graphView.newEdgeNode1Id.has_value() && graphView.newEdgeNode2Id.has_value()) {
