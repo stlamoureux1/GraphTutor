@@ -6,11 +6,12 @@ DrawingPane::DrawingPane(wxFrame* parent, wxWindowID id)
         Bind(wxEVT_LEFT_DOWN, &DrawingPane::OnMouseLeftDown, this);
         Bind(wxEVT_LEFT_UP, &DrawingPane::OnMouseLeftUp, this);
         Bind(wxEVT_LEFT_DCLICK, &DrawingPane::OnDoubleClick, this);
-        // Bind(wxEVT_MOTION, &DrawingPane::OnMouseLeftDrag, this);
+        Bind(wxEVT_MOTION, &DrawingPane::OnMouseLeftDrag, this);
         Bind(wxEVT_PAINT, &DrawingPane::OnPaint, this);
 }
 
 void DrawingPane::OnMouseLeftDown(wxMouseEvent& event) {
+    graphView.dragOrigin = event.GetPosition();
     if (!event.ShiftDown()) {
         for (auto node : graphView.graph.nodeList) {
             graphView.selectedNodes[node.GetId()] = false;
@@ -42,6 +43,24 @@ void DrawingPane::OnMouseLeftUp(wxMouseEvent& event) {
     }
     if (graphView.newEdgeNode1Id.has_value() && graphView.newEdgeNode2Id.has_value()) {
         graphView.AddEdge(graphView.newEdgeNode1Id.value(), graphView.newEdgeNode2Id.value());
+    }
+    graphView.newEdgeNode1Id = std::nullopt;
+    graphView.newEdgeNode2Id = std::nullopt;
+    Refresh();
+}
+
+void DrawingPane::OnMouseLeftDrag(wxMouseEvent& event) {
+    // MouseDown event sets drag origin point
+    auto translation = event.GetPosition() - graphView.dragOrigin;
+    // Reset drag origin at event iteration so the translation amount doesn't keep incrementing
+    graphView.dragOrigin = event.GetPosition();
+    for (auto& node : graphView.graph.nodeList) {
+        if (graphView.selectedNodes[node.GetId()] && event.Dragging()) {
+            if (!event.ControlDown()) {
+                graphView.nodePositions[node.GetId()] += translation;
+                
+            }    
+        }
     }
     Refresh();
 }

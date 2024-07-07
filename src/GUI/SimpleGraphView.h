@@ -18,6 +18,7 @@ class SimpleGraphView {
         SimpleGraph<int> graph;
         std::map<NodeId, wxPoint> nodePositions;
         std::map<NodeId, bool> selectedNodes; 
+        wxPoint dragOrigin;
         std::optional<NodeId> newEdgeNode1Id;
         std::optional<NodeId> newEdgeNode2Id;
     private:
