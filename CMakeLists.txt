@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.5.0)
 # build is set up for OSX with brew install of wxWidgets
 set(OSX_ARCHITECTURES x86_64)
 set(wxWidgets_ROOT_DIR /usr/local/Cellar/wxwidgets)
+set(nlohmann-json_DIR /usr/local/Cellar/nlohmann-json)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -11,6 +12,8 @@ project(GraphTutor)
 find_package(wxWidgets COMPONENTS core base REQUIRED)
 include(${wxWidgets_USE_FILE})
 
+find_package(nlohmann_json REQUIRED)
+include_directories(/usr/local/Cellar/nlohmann-json/3.11.3/include)
 
 add_executable(
     GraphTutor 
@@ -22,7 +25,7 @@ add_executable(
     )
 
 target_include_directories(${PROJECT_NAME} PUBLIC $(PROJECT_SOURCE_DIR)/src)
-target_link_libraries(${PROJECT_NAME} ${wxWidgets_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} ${wxWidgets_LIBRARIES} nlohmann_json::nlohmann_json)
 
 add_subdirectory(src)
 add_subdirectory(test)
