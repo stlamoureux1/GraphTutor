@@ -18,6 +18,44 @@ void SimpleGraph<T>::AddNode(Node<T> node) {
 }
 
 template <class T>
+void SimpleGraph<T>::RemoveNode(NodeId id) {
+    // Remove node with this id from nodeList
+    auto nodeIter = find_if(nodeList.begin(), nodeList.end(), 
+                            [&](auto& otherNode) {return otherNode.GetId() == id; } 
+                            );
+    if (nodeIter != nodeList.end()) {
+        nodeList.erase(nodeIter);
+    }
+
+    // Remove from edgeList all edges containing this node
+    auto edgeIter = remove_if(edgeList.begin(),
+                                edgeList.end(),
+                                [&](Edge<T>& otherEdge) {
+                                    return otherEdge.GetNodeIds().first == id
+                                        || otherEdge.GetNodeIds().second == id;
+                                }
+                            );
+    edgeList.erase(edgeIter, edgeList.end());
+
+    // Update adjacency list
+    auto idIter = adjacencyList.find(id);
+    if (idIter != adjacencyList.end()) {
+        adjacencyList.erase(idIter);
+    }
+    for (auto& [key, val] : adjacencyList) {
+        auto entryIter = remove_if(val.begin(),
+                                    val.end(),
+                                    [&](auto& entry) { 
+                                        return entry.first == id; 
+                                    }
+                                );
+        val.erase(entryIter, val.end());        
+    }
+}
+
+/*
+// TBD Change to use node id
+template <class T>
 void SimpleGraph<T>::RemoveNode(Node<T> node) {
     // Remove this node from nodeList
     auto nodeIter = find_if(nodeList.begin(),
@@ -56,6 +94,7 @@ void SimpleGraph<T>::RemoveNode(Node<T> node) {
         
     }
 }
+*/
 
 template <class T>
 void SimpleGraph<T>::AddEdge(Edge<T> edge) {

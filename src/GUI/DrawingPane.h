@@ -3,7 +3,8 @@
 #include <wx/wx.h>
 #include "NodeView.h"
 #include "EdgeView.h"
-#include "Model/SimpleGraphImpl.h"
+#include "SimpleGraphView.h"
+
 
 class DrawingPane : public wxWindow {
     public:
@@ -13,6 +14,9 @@ class DrawingPane : public wxWindow {
         void OnMouseLeftDrag(wxMouseEvent&);
         void OnDoubleClick(wxMouseEvent&);
         void OnPaint(wxPaintEvent&);
+    
+        SimpleGraphView graphView;
+    /*
     private:
         std::vector<NodeView> nodeList;
         std::vector<EdgeView> edgeList;
@@ -21,4 +25,5 @@ class DrawingPane : public wxWindow {
         std::optional<NodeView> newEdgeEnd; 
         NodeId nodeCounter;
         EdgeId edgeCounter;
+    */
 };

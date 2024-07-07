@@ -1,6 +1,59 @@
 #include "DrawingPane.h"
 
 DrawingPane::DrawingPane(wxFrame* parent, wxWindowID id) 
+    : wxWindow(parent, id) {
+        SetBackgroundStyle(wxBG_STYLE_PAINT);
+        Bind(wxEVT_LEFT_DOWN, &DrawingPane::OnMouseLeftDown, this);
+        // Bind(wxEVT_LEFT_UP, &DrawingPane::OnMouseLeftUp, this);
+        Bind(wxEVT_LEFT_DCLICK, &DrawingPane::OnDoubleClick, this);
+        // Bind(wxEVT_MOTION, &DrawingPane::OnMouseLeftDrag, this);
+        Bind(wxEVT_PAINT, &DrawingPane::OnPaint, this);
+}
+
+void DrawingPane::OnMouseLeftDown(wxMouseEvent& event) {
+    if (!event.ShiftDown()) {
+        for (auto node : graphView.graph.nodeList) {
+            graphView.selectedNodes[node.GetId()] = false;
+        }
+    }
+    for (auto node : graphView.graph.nodeList) {
+        if (abs(event.GetPosition().x - graphView.nodePositions[node.GetId()].x) < 20
+            && abs(event.GetPosition().y - graphView.nodePositions[node.GetId()].y) < 20) {
+                graphView.selectedNodes[node.GetId()] = true;
+            }
+    }
+    Refresh();
+}
+
+void DrawingPane::OnDoubleClick(wxMouseEvent& event) {
+    auto nodePosIter = find_if(graphView.nodePositions.begin(), graphView.nodePositions.end(),
+                                [&](auto& entry) {
+                                    return abs(entry.second.x - event.GetPosition().x) < 20
+                                            && abs(entry.second.y - event.GetPosition().y) < 20;
+                                }
+                        );
+    if (nodePosIter != graphView.nodePositions.end()) {
+        graphView.RemoveNode(nodePosIter->first);
+    }
+    else {
+        graphView.AddNode(event.GetPosition());
+    }
+    Refresh();
+}
+
+void DrawingPane::OnPaint(wxPaintEvent& event) {
+    wxPaintDC dc(this);
+    wxGraphicsContext* gc = wxGraphicsContext::Create(dc);
+    if (gc) {
+        graphView.Draw(gc);
+        delete gc;
+    }
+}
+
+
+
+/*
+DrawingPane::DrawingPane(wxFrame* parent, wxWindowID id) 
     : wxWindow(parent, id), newEdgeStart(std::nullopt), newEdgeEnd(std::nullopt) 
     {
         SetBackgroundStyle(wxBG_STYLE_PAINT);
@@ -45,6 +98,9 @@ void DrawingPane::OnMouseLeftUp(wxMouseEvent& event) {
             }
         }
     }
+    newEdgeStart = std::nullopt;
+    newEdgeEnd = std::nullopt;
+
     Refresh();
 }
 
@@ -57,24 +113,9 @@ void DrawingPane::OnMouseLeftDrag(wxMouseEvent& event) {
         if (node.isSelected && event.Dragging()) {
             if (!event.ControlDown()) {
                 node.SetCenter(node.GetCenter() + translation);
-            }
+                
+            }    
             // TBD Draw a dashed temporary edge when user drags from inside of node
-            /*
-            else {
-                wxPaintDC dc(this);
-                wxGraphicsContext* gc = wxGraphicsContext::Create(dc);
-                if (gc) {
-                    wxPen pen = wxPen(*wxWHITE_PEN);
-                    pen.SetStyle(wxPENSTYLE_LONG_DASH);
-                    gc->SetPen(pen);
-                    wxGraphicsPath path = gc->CreatePath();
-                    path.MoveToPoint(newEdgeStart);
-                    path.AddLineToPoint(event.GetPosition());
-                    gc->StrokePath(path);
-                    delete gc;
-                }
-            }
-            */
         }
     }
     Refresh();
@@ -98,15 +139,16 @@ void DrawingPane::OnDoubleClick(wxMouseEvent& event) {
     // If one is remove all incident edges and delete node
     if (nodeIter != nodeList.end()) {
         // TBD Remove incident edges
-        /*
+     
         auto edgeIter = remove_if(edgeList.begin(),
                                     edgeList.end(),
                                     [&](auto edgeView) {
-                                        return edgeView.endpoint1 == nodeIter->GetCenter() 
-                                            || edgeView.endpoint2 == nodeIter->GetCenter();
+                                        return edgeView.m_node1 == *nodeIter 
+                                            || edgeView.m_node2 == *nodeIter;
                                     });
-        */
+        
         edgeList.erase(edgeIter, edgeList.end());
+        
         nodeList.erase(nodeIter);
     }
     else {
@@ -129,3 +171,4 @@ void DrawingPane::OnPaint(wxPaintEvent& event) {
         delete gc;
     }
 }
+*/

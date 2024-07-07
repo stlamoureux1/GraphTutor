@@ -1,7 +1,7 @@
 #include "EdgeView.h"
 
-EdgeView::EdgeView(NodeView& node1, NodeView& node2)
-    : endpoint1(node1.GetCenter()), endpoint2(node2.GetCenter()) {}
+EdgeView::EdgeView(wxPoint endpoint1, wxPoint endpoint2)
+    : m_endpoint1(endpoint1), m_endpoint2(endpoint2) {}
 
 void EdgeView::Draw(wxGraphicsContext* gc) {
     wxPen pen = wxPen(*wxWHITE_PEN);
@@ -10,11 +10,13 @@ void EdgeView::Draw(wxGraphicsContext* gc) {
     }
     gc->SetPen(pen);
     wxGraphicsPath path = gc->CreatePath();
-    path.MoveToPoint(endpoint1);
-    path.AddLineToPoint(endpoint2);
+    path.MoveToPoint(m_endpoint1);
+    path.AddLineToPoint(m_endpoint1);
     gc->StrokePath(path);
 }
 
+/*
 bool EdgeView::Contains(wxPoint point) {
-    return point.y - (((point.y - endpoint1.y) / (point.x - endpoint1.x)) * point.x) <= 3;
+    return point.y - (((point.y - m_node1.GetCenter().y) / (point.x - m_node1.GetCenter().x)) * point.x) <= 3;
 }
+*/

@@ -27,7 +27,7 @@ TEST(SimpleGraphTest, test2) {
     graph.AddEdge(edge1);
     graph.AddEdge(edge2);
     graph.AddEdge(edge3);
-    graph.RemoveNode(node1);
+    graph.RemoveNode(0);
     // Check that edges incident to node1 have been removed
     auto edgeIter = std::find_if(graph.edgeList.begin(), graph.edgeList.end(), 
                                 [&](auto& edge){

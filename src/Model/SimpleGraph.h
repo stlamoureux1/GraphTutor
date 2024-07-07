@@ -18,9 +18,14 @@ class SimpleGraph {
         std::vector<Edge<T>> edgeList;
         AdjacencyList adjacencyList;
         void AddNode(Node<T> node);
-        void RemoveNode(Node<T> node);
+        // TBD change to use id
+        // void RemoveNode(Node<T> node);
+        void RemoveNode(NodeId id);
         void AddEdge(Edge<T> edge);
         void RemoveEdge(Edge<T> edge);
+
+        NodeId nodeCounter;
+        EdgeId edgeCounter;
     private:
 
 };

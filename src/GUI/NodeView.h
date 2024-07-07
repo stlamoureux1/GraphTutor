@@ -14,6 +14,7 @@ class NodeView {
         wxPoint GetCenter();
         void SetCenter(wxPoint);
         wxDouble GetRadius();
+        NodeId GetId();
     
         bool isSelected;
     private:

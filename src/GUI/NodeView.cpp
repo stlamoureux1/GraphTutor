@@ -8,10 +8,14 @@ void NodeView::Draw(wxGraphicsContext* gc) {
     if (isSelected) {
         pen.SetWidth(3);
     }
+    wxBrush brush = wxBrush(wxColour(45, 45, 45));
     gc->SetPen(pen);
+    gc->SetBrush(brush);
     wxGraphicsPath path = gc->CreatePath();
     path.AddCircle(m_center.x, m_center.y, m_radius);
+    gc->FillPath(path);
     gc->StrokePath(path);
+    
 }
 
 void NodeView::Move(wxPoint dest) {
@@ -32,4 +36,12 @@ void NodeView::SetCenter(wxPoint point) {
 
 wxDouble NodeView::GetRadius() {
     return m_radius;
+}
+
+NodeId NodeView::GetId() {
+    return m_id;
+}
+
+bool operator==(NodeView node1, NodeView node2) {
+    return node1.GetId() == node2.GetId();
 }

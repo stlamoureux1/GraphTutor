@@ -17,6 +17,7 @@ add_executable(
     src/GUI/Main.cpp
     src/GUI/NodeView.cpp
     src/GUI/EdgeView.cpp
+    src/GUI/SimpleGraphView.cpp
     src/GUI/DrawingPane.cpp
     )
 
@@ -25,3 +26,5 @@ target_link_libraries(${PROJECT_NAME} ${wxWidgets_LIBRARIES})
 
 add_subdirectory(src)
 add_subdirectory(test)
+
+add_compile_options(-Wall -Wpedantic -Werror -Wextra)
