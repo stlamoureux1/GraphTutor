@@ -33,24 +33,25 @@ TEST(NodeTest, test4) {
 
 TEST(NodeTest, IOtest1) {
     Node<int> node(0, 0);
-    json j = node.ToJSON();
+    ordered_json j = node;
     std::cout << std::setw(4) << j << "\n";
-    ASSERT_EQ(j["id"], 0);
-    ASSERT_EQ(j["data"], 0);
+    ASSERT_EQ(j["node"]["id"], 0);
+    ASSERT_EQ(j["node"]["data"], 0);
 }
 
 TEST(NodeTest, IOtest2) {
+    // Test for output formatting; no assertions.
     std::vector<std::string> v{"a", "b", "c"};
     Node<std::vector<std::string>> node(0, v);
-    json j = node.ToJSON();
+    ordered_json j = node;
     std::cout << std::setw(4) << j << "\n";
 }
 
 TEST(NodeTest, IOTest3) {
-    json j;
-    j["id"] = 0;
-    j["data"] = 0;
-    Node<int> node(j);
+    ordered_json j;
+    j["node"]["id"] = 0;
+    j["node"]["data"] = 0;
+    auto node = j.template get<Node<int>>();
     ASSERT_EQ(node.GetId(), 0);
     ASSERT_EQ(node.GetData(), 0);
 }

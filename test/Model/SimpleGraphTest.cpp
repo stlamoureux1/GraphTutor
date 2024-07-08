@@ -2,9 +2,11 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <sstream>
 #include "Model/SimpleGraphImpl.h"
 
 using ::testing::Pair;
+using ::testing::ElementsAre;
 
 TEST(SimpleGraphTest, test1) {
     SimpleGraph<int> graph;
@@ -53,3 +55,19 @@ TEST(SimpleGraphTest, test2) {
         ASSERT_EQ(entryIter, it->second.end());
     }
 }
+
+TEST(SimpleGraphTest, IOtest1) {
+    std::stringstream ss;
+    ss << R"(
+    {   "nodeList": [ { "node": { "id": 0, "data": 0 }}, { "node": { "id": 1, "data": 1 }} ],
+        "edgeList": [ { "edge": { "id": 2, "node1Id": 0, "node2Id": 1 }} ]
+    })";
+    json j;
+    ss >> j;
+    Node<int> node1(0, 0);
+    Node<int> node2(1, 1);
+    Edge<int> edge(2, node1, node2);
+    SimpleGraph<int> g = j;
+    ASSERT_THAT(g.nodeList, ElementsAre(node1, node2));
+    ASSERT_THAT(g.edgeList, ElementsAre(edge));
+} 

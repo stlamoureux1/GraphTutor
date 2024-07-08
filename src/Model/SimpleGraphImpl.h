@@ -1,5 +1,6 @@
 #include "SimpleGraph.h"
 
+
 template <class T>
 void SimpleGraph<T>::AddNode(Node<T> node) {
     // Check if there is already a node using this node's id.
