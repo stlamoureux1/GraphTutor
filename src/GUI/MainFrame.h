@@ -7,8 +7,8 @@ class MainFrame : public wxFrame {
     public:
         MainFrame();
         void SetUpMainMenu();
-        void Save(wxCommandEvent& event);
-        void Open(wxCommandEvent& event);
+        void OnSave(wxCommandEvent& event);
+        void OnOpen(wxCommandEvent& event);
 
         DrawingPane* drawingPane;
     private:
