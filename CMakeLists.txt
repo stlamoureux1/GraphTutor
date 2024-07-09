@@ -21,6 +21,7 @@ add_executable(
     src/GUI/NodeView.cpp
     src/GUI/EdgeView.cpp
     src/GUI/SimpleGraphView.cpp
+    src/GUI/MainFrame.cpp
     src/GUI/DrawingPane.cpp
     )
 
