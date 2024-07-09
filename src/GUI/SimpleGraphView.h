@@ -36,8 +36,6 @@ class SimpleGraphView {
         std::optional<NodeId> newEdgeNode1Id;
         std::optional<NodeId> newEdgeNode2Id;
 
-
-
         template <typename BasicJson>
         friend void to_json(const BasicJson& j, std::map<NodeId, wxPoint>& nodePositions) {
             for (auto [i, val] : nodePositions) {
