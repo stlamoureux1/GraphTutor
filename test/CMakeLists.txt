@@ -14,6 +14,12 @@ if(TEST)
 
     add_executable(
         GraphTutorTest
+        # GUI
+        ${PROJECT_SOURCE_DIR}/test/GUI/GraphViewTest.cpp
+        ${PROJECT_SOURCE_DIR}/src/GUI/SimpleGraphView.cpp
+        ${PROJECT_SOURCE_DIR}/src/GUI/NodeView.cpp 
+        ${PROJECT_SOURCE_DIR}/src/GUI/EdgeView.cpp
+        # Model
         ${PROJECT_SOURCE_DIR}/test/Model/NodeTest.cpp 
         ${PROJECT_SOURCE_DIR}/test/Model/EdgeTest.cpp
         ${PROJECT_SOURCE_DIR}/test/Model/SimpleGraphTest.cpp
@@ -23,6 +29,7 @@ if(TEST)
         GraphTutorTest
         GTest::gtest_main
         GTest::gmock_main
+        ${wxWidgets_LIBRARIES}
     )
 
     include(GoogleTest)
