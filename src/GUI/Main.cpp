@@ -1,4 +1,5 @@
 #include <wx/wx.h>
+#include "MainFrame.h"
 #include "DrawingPane.h"
 
 class Main : public wxApp {
@@ -7,8 +8,8 @@ class Main : public wxApp {
 };
 
 bool Main::OnInit() {
-    wxFrame* mainFrame = new wxFrame(nullptr, wxID_ANY, "GraphTutor", wxDefaultPosition, wxSize(800, 600));
-    DrawingPane* drawingPane = new DrawingPane(mainFrame, wxID_ANY);
+    MainFrame* mainFrame = new MainFrame();
+    mainFrame->SetUpMainMenu();
     mainFrame->Show();
     return true;
 }
